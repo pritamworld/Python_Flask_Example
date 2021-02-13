@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 
 app = Flask(__name__)
 print(__name__)
@@ -15,6 +15,14 @@ def hello():
 def greet():
     return "<h1>Hello World</h1>"
 
+# Return JSON Response as an API
+# http://127.0.0.1:5001/person
+@app.route("/person", methods=["GET"])
+def person():
+    people = [{'name': 'Alice', 'birth_year': 1986},
+              {'name': 'Bob', 'birth_year': 1985}]
+    jsonResponse = jsonify(people)
+    return jsonResponse
 
 # http://127.0.0.1:5001/name
 # This should return your name
