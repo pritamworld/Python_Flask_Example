@@ -24,14 +24,17 @@ def name():
     return "<h1>Pritesh Patel</h1>"
 
 
-@app.route('/hello/<user>')
-def hello_name(user):
-    return render_template('hello.html', name=user)
+# path parameter example
+# http://127.0.0.1:5001/hello/pritesh/lambton
+@app.route('/hello/<user>/<org>')
+def hello_name(user, org):
+    return render_template('hello.html', name=user, org=org)
 
 
+# http://127.0.0.1:5001/t1
 @app.route("/t1")
 def template_test():
-    return render_template('template.html', my_string="Wheeeee!", my_list=[0, 1, 2, 3, 4, 5])
+    return render_template('template.html', my_string="Welcome to Python Flask Programming!", my_list=[0, 1, 2, 3, 4, 5])
 
 
 @app.route('/signup')
