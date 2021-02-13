@@ -24,11 +24,15 @@ def person():
     jsonResponse = jsonify(people)
     return jsonResponse
 
+# Read Query parameter
 # http://127.0.0.1:5001/name
+# http://127.0.0.1:5001/name?value=pritesh
 # This should return your name
 @app.route("/name", methods=["GET"])
 def name():
-    print(request)
+    if(request.args.get("value")):
+        return "<h1>" + request.args.get("value") + "</h1>"
+
     return "<h1>Pritesh Patel</h1>"
 
 
