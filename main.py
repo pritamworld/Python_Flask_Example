@@ -55,9 +55,10 @@ def hello_name(user, org):
 # path parameter example
 # http://127.0.0.1:5001/restaurants/American
 # http://127.0.0.1:5001/restaurants/Chinese
-@app.route('/restaurants/<cuisine>')
+@app.route('/restaurants/<cuisine>', methods=["POST"])
 def restaurants_cuisine(cuisine):
-    results = cRestaurants.find({'cuisine': cuisine})
+    columns = {"restaurant_id", "name", "cuisine", "borough", "cuisine"}
+    results = cRestaurants.find({'cuisine': cuisine}, columns)
     details_dicts = [doc for doc in results]
     json_docs = toJson(details_dicts) # Convert to JSON
     return json_docs
