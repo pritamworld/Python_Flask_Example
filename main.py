@@ -1,7 +1,17 @@
+import json
+
+from bson import json_util
 from flask import Flask, request, render_template, jsonify
+import pymongo
 
 app = Flask(__name__)
 print(__name__)
+
+# MongoDb connection
+connection_string = "mongodb+srv://sa:rrfYrY3mSzHSgzJR@cluster0.qa3t4.mongodb.net/sample_restaurants?retryWrites=true&w=majority"
+myclient = pymongo.MongoClient(connection_string)
+db = myclient.sample_restaurants
+cRestaurants = db["restaurants"]
 
 
 # http://127.0.0.1:5001/
@@ -42,6 +52,21 @@ def name():
 def hello_name(user, org):
     return render_template('hello.html', name=user, org=org)
 
+# path parameter example
+# http://127.0.0.1:5001/restaurants/American
+# http://127.0.0.1:5001/restaurants/Chinese
+@app.route('/restaurants/<cuisine>')
+def restaurants_cuisine(cuisine):
+    results = cRestaurants.find({'cuisine': cuisine})
+    details_dicts = [doc for doc in results]
+    json_docs = toJson(details_dicts) # Convert to JSON
+    return json_docs
+
+
+# Utility Function
+def toJson(data):
+    """Convert Mongo object(s) to JSON"""
+    return json.dumps(data, default=json_util.default)
 
 # http://127.0.0.1:5001/t1
 @app.route("/t1")

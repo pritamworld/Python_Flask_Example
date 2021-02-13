@@ -1,5 +1,7 @@
 Flask==1.1.2
 jinja2
+pymongo
+dnspython
 #Flask
 
 
